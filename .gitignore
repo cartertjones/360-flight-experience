@@ -47,6 +47,9 @@ ExportedObj/
 *.opendb
 *.VC.db
 
+# Large MP4 Video Files
+*.mp4
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
