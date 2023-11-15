@@ -49,6 +49,7 @@ ExportedObj/
 
 # Large MP4 Video Files
 *.mp4
+*.mp4.meta
 
 # Unity3D generated meta files
 *.pidb.meta
