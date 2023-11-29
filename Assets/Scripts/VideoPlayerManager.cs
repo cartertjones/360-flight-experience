@@ -8,6 +8,20 @@ public class VideoPlayerManager : MonoBehaviour
     public VideoPlayer videoPlayer;     //Our video player component variable. Can be set in inspector or through code in Start()             
     public VideoClip[] clips;           //Array for video clips
 
+    //TODO unimplemented
+    private bool isPlaying;
+
+    [SerializeField]
+    private QuizController qc;
+
+    // private void Start() {
+    //     qc = GameObject.Find("QuizController").GetComponent<QuizController>();
+    // }
+
+    private void Start() {
+        qc.UpdateTimestamp(0);
+    }
+
 
     private void Update()
     {
@@ -31,6 +45,18 @@ public class VideoPlayerManager : MonoBehaviour
         
     }
 
+    //TODO unimplemented method
+    public void Pause() {
+
+    }
+    public void Play() {
+
+    }
+    public void TogglePlay() {
+
+    }
+
+    //TODO call QuizController.UpdateTimestamp each second, passing video's timestamp as parameter
    
 }
 
