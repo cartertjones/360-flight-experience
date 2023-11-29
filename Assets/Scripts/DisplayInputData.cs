@@ -25,7 +25,7 @@ public class DisplayInputData : MonoBehaviour
         if (_inputData._leftController.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) && triggerValue)
         {
             Debug.Log("Trigger button is pressed.");
-            vpm.PlayClip();
+            vpm.Play();
         }
     }
 }
