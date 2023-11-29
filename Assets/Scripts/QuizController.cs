@@ -13,20 +13,25 @@ public class QuizController : MonoBehaviour
     private GameObject[] answerButtons;
     private TextMeshProUGUI[] answerText;
     private TextMeshProUGUI questionText;
+    public TextMeshProUGUI postAnswerText;
 
     //quiz questions
     [SerializeField]
     private Question[] quizQuestions;
 
     private GameObject[] toggledContent;
-    private int delay = 3;
+    private float delay = 3f;
 
     [SerializeField]
     private VideoPlayerManager videoPlayerManager;
 
     private int correctAnswer;
+    [SerializeField]
+    private int correctPoints;
 
-    
+    [SerializeField]
+    private PlayerPrefManager ppm;
+
     private void Start()
     {
         Debug.Log($"answerButtons.Length: {answerButtons.Length}");
@@ -57,11 +62,16 @@ public class QuizController : MonoBehaviour
 
         questionText = GameObject.Find("Header").GetComponent<TextMeshProUGUI>();
 
-        toggledContent = new GameObject[answerButtons.Length + 1];
+        toggledContent = new GameObject[answerButtons.Length + 2];
         for(int i = 0; i < answerButtons.Length; i++) {
             toggledContent[i] = answerButtons[i];
         }
-        toggledContent[toggledContent.Length - 1] = questionText.transform.gameObject;
+        toggledContent[toggledContent.Length - 2] = questionText.transform.gameObject;
+        toggledContent[toggledContent.Length - 1] = postAnswerText.transform.gameObject;
+        foreach (GameObject obj in toggledContent)
+        {
+            obj.SetActive(false);
+        }
     }
 
 
@@ -111,6 +121,14 @@ public class QuizController : MonoBehaviour
         foreach(GameObject obj in toggledContent) {
             obj.SetActive(true);
         }
+        toggledContent[toggledContent.Length - 1].SetActive(false);
+        if(q.answers.Length == 2)
+        {
+            //true or false question
+            answerButtons[2].SetActive(false);
+            answerButtons[3].SetActive(false);
+        }
+        postAnswerText.text = q.postAnswerText;
     }
 
     private void ShuffleArray<T>(T[] array)
@@ -129,28 +147,69 @@ public class QuizController : MonoBehaviour
     }
 
     //on button click
-        //if clicked answer is correct
-        //change button color to green
-        //play celebratory sound
-        //increase score
-        //delay, then reset ui body to blank
-    public void OnClick(int answer) {
-        if(answer == correctAnswer) {
-            Button correctButton = answerButtons[correctAnswer].GetComponent<Button>();
-            ColorBlock colorBlock = correctButton.colors;
-            colorBlock.normalColor = Color.green;
-            correctButton.colors = colorBlock;
-            //play sound
+    //if clicked answer is correct
+    //change button color to green
+    //play celebratory sound
+    //increase score
+    //delay, then reset ui body to blank
+    public void OnClick(int answer)
+    {
+        Button clickedButton = answerButtons[answer].GetComponent<Button>();
+        
+        ColorBlock defaults = clickedButton.colors;
+        ColorBlock colorBlock = defaults;
 
-            //set ui body to blank after a moment
-            StartCoroutine(DeactivateObjectsDelayed());
+        if (answer == correctAnswer)
+        {
+            colorBlock.normalColor = Color.green;
+            colorBlock.highlightedColor = Color.green;
+            // Assign the modified ColorBlock back to the button
+            clickedButton.colors = colorBlock;
+
+            ppm.IncreaseScore(correctPoints);
+            // Play sound
         }
-    } 
-    
-    private IEnumerator DeactivateObjectsDelayed() {
+        else
+        {
+            colorBlock.normalColor = Color.red;
+            colorBlock.highlightedColor = Color.red;
+            // Assign the modified ColorBlock back to the button
+            clickedButton.colors = colorBlock;
+            // Play sound
+        }
+
+        // Hide other buttons
+        for (int i = 0; i < answerButtons.Length; i++)
+        {
+            if (i != answer)
+            {
+                answerButtons[i].SetActive(false);
+            }
+        }
+
+        // Display post-answer text
+        postAnswerText.transform.gameObject.SetActive(true);
+
+        // Set UI body to blank after a moment
+        StartCoroutine(DeactivateObjectsDelayed(defaults));
+    }
+
+    private IEnumerator DeactivateObjectsDelayed(ColorBlock defaults)
+    {
         yield return new WaitForSeconds(delay);
-        foreach(GameObject obj in toggledContent) {
+
+        foreach (GameObject obj in toggledContent)
+        {
             obj.SetActive(false);
+        }
+
+        videoPlayerManager.Play();
+
+        // Reset button colors to default
+        foreach (GameObject answerButton in answerButtons)
+        {
+            Button button = answerButton.GetComponent<Button>();
+            button.colors = defaults;
         }
     }
 

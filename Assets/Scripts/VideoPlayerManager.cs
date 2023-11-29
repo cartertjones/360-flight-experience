@@ -6,51 +6,59 @@ using UnityEngine;
 public class VideoPlayerManager : MonoBehaviour
 {
     public VideoPlayer videoPlayer;     //Our video player component variable. Can be set in inspector or through code in Start()             
-    public VideoClip[] clips;           //Array for video clips
+    public VideoClip[] clips;
 
-    //TODO unimplemented
-    private bool isPlaying;
+    private int currTimestamp, prevTimestamp;
 
     [SerializeField]
     private QuizController qc;
 
-    // private void Start() {
-    //     qc = GameObject.Find("QuizController").GetComponent<QuizController>();
-    // }
+    [SerializeField]
+    private PlayerPrefManager ppm;
 
     private void Start() {
-        qc.UpdateTimestamp(0);
+        //select clip to be played
+        if(ppm.GetScene() == "Intro")
+        {
+            videoPlayer.clip = clips[0];
+        }
+        else if(ppm.GetScene() == "Conclusion")
+        {
+            videoPlayer.clip = clips[1];
+        }
+        Play();
     }
+
+    private bool isPaused;
 
 
     private void Update()
     {
-        //Check to see if the current clip has ended. Once it's over, call to PlayClip()
+        //Check to see if the current clip has ended. Once it's over, prepare to transition to 360 video
         if ((videoPlayer.frame) > 0 && (videoPlayer.isPlaying == false))
         {
-            PlayClip();
+            //TODO transition to 360 video
         }
+
+        //Update timestamp
+        currTimestamp = (int)(videoPlayer.time);
+        if(currTimestamp != prevTimestamp)
+        {
+            if(qc != null)
+            {
+                qc.UpdateTimestamp(currTimestamp);
+            }
+            ppm.SetTimestamp(currTimestamp);
+            Debug.Log(currTimestamp);
+        }
+        prevTimestamp = currTimestamp;
     }
 
-    public void PlayClip()
-    {
-        if (videoPlayer.clip == clips[0])            //Checks to see if the clip that just played was the first video
-        {
-            videoPlayer.clip = clips[1];     //Sets the videoPlayer clip to the next chosen video
-        }
-        else
-        {
-            videoPlayer.clip = clips[0];     //Sets the videoPlayer clip to the next chosen video
-        }
-        
-    }
-
-    //TODO unimplemented method
     public void Pause() {
-
+        videoPlayer.Pause();
     }
     public void Play() {
-
+        videoPlayer.Play();
     }
     public void TogglePlay() {
 

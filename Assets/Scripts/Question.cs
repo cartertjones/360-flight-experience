@@ -8,4 +8,5 @@ public class Question
     public string questionText;
     public int timestampInSec;
     public Answer[] answers;
+    public string postAnswerText;
 }
