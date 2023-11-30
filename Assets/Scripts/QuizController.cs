@@ -12,8 +12,12 @@ public class QuizController : MonoBehaviour
     [SerializeField]
     private GameObject[] answerButtons;
     private TextMeshProUGUI[] answerText;
+    [SerializeField]
     private TextMeshProUGUI questionText;
     public TextMeshProUGUI postAnswerText;
+
+    [SerializeField]
+    private int endOfClip;
 
     //quiz questions
     [SerializeField]
@@ -31,6 +35,9 @@ public class QuizController : MonoBehaviour
 
     [SerializeField]
     private PlayerPrefManager ppm;
+
+    [SerializeField]
+    private CustomSceneManager sm;
 
     private void Start()
     {
@@ -62,8 +69,6 @@ public class QuizController : MonoBehaviour
             }
         }
         Debug.Log($"answerText.Length: {answerText.Length}");
-
-        questionText = GameObject.Find("Header").GetComponent<TextMeshProUGUI>();
 
         toggledContent = new GameObject[answerButtons.Length + 2];
         for(int i = 0; i < answerButtons.Length; i++) {
@@ -131,6 +136,12 @@ public class QuizController : MonoBehaviour
             answerButtons[2].SetActive(false);
             answerButtons[3].SetActive(false);
         }
+        if(q.answers.Length == 1)
+        {
+            answerButtons[1].SetActive(false);
+            answerButtons[2].SetActive(false);
+            answerButtons[3].SetActive(false);
+        }
         postAnswerText.text = q.postAnswerText;
     }
 
@@ -158,6 +169,10 @@ public class QuizController : MonoBehaviour
     public void OnClick(int answer)
     {
         Button clickedButton = answerButtons[answer].GetComponent<Button>();
+
+        if(ppm.GetTimestamp() == endOfClip) {
+            sm.LoadScene(2, "360Video");
+        }
         
         ColorBlock defaults = clickedButton.colors;
         ColorBlock colorBlock = defaults;

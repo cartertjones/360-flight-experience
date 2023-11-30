@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     private CustomSceneManager sm;
 
     public GameObject settingsMenu;
+    public GameObject resumeGame;
 
     private void Start()
     {
@@ -16,10 +17,10 @@ public class MainMenu : MonoBehaviour
     }
     private void Update() {
         if(ppm.GetTimestamp() > 0 && (ppm.GetInitialMode() == 1 && ppm.isQuizMode())) {
-            GameObject.Find("Resume Game").SetActive(true);
+            resumeGame.SetActive(true);
         }
         else {
-            GameObject.Find("Resume Game").SetActive(false);
+            resumeGame.SetActive(false);
         }
     }
     public void NewGame()
@@ -38,13 +39,7 @@ public class MainMenu : MonoBehaviour
             case "Intro":
                 sceneIndex = 1;
                 break;
-            case "360VideoTakeoff":
-                sceneIndex = 2;
-                break;
-            case "360VideoFlight":
-                sceneIndex = 2;
-                break;
-            case "360VideoLanding":
+            case "360Video":
                 sceneIndex = 2;
                 break;
             case "Conclusion":

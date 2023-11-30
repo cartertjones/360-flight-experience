@@ -11,6 +11,9 @@ public class VideoPlayerManager : MonoBehaviour
     private int currTimestamp, prevTimestamp;
 
     [SerializeField]
+    private int videoLength;
+
+    [SerializeField]
     private QuizController qc;
 
     [SerializeField]
@@ -24,12 +27,14 @@ public class VideoPlayerManager : MonoBehaviour
         if(ppm.GetScene() == "Intro")
         {
             videoPlayer.clip = clips[0];
+            Play();
         }
         else if(ppm.GetScene() == "Conclusion")
         {
             videoPlayer.clip = clips[1];
+            Play();
         }
-        Play();
+        
     }
 
     private bool isPaused;
@@ -37,11 +42,16 @@ public class VideoPlayerManager : MonoBehaviour
 
     private void Update()
     {
-        //Check to see if the current clip has ended. Once it's over, prepare to transition to 360 video
-        if ((videoPlayer.frame) > 0 && (videoPlayer.isPlaying == false))
-        {
-            sm.LoadScene(2, "360VideoTakeoff");
-        }
+        // if(videoLength != null || videoLength != 0) {
+        //     if(ppm.GetTimestamp() == videoLength) {
+        //         if(ppm.GetScene() == "360Video") {
+        //             sm.LoadScene(1, "Conclusion");
+        //         }
+        //         else if(ppm.GetScene() == "Conclusion") {
+        //             //show end ui?
+        //         }
+        //     }
+        // }
 
         //Update timestamp
         currTimestamp = (int)(videoPlayer.time);

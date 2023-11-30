@@ -169,7 +169,9 @@ MonoBehaviour:
   - {fileID: 4833726900133582619}
   - {fileID: 4862052898586281435}
   - {fileID: 6462887823332266670}
+  questionText: {fileID: 859992585028171569}
   postAnswerText: {fileID: 1884027158}
+  endOfClip: 2
   quizQuestions:
   - questionText: What kind of plane is Josh using?
     timestampInSec: 32
@@ -192,7 +194,7 @@ MonoBehaviour:
       isCorrect: 1
     postAnswerText: The Cessna 172 has 'Tricycle' landing gear.
   - questionText: The Cessna 172 is regarded as the best trainer plane in the world.
-    timestampInSec: 55
+    timestampInSec: 57
     answers:
     - answerText: True
       isCorrect: 1
@@ -239,9 +241,16 @@ MonoBehaviour:
     - answerText: False
       isCorrect: 0
     postAnswerText: They also create extra drag, slowing the plane down further.
+  - questionText: Section Complete!
+    timestampInSec: 2
+    answers:
+    - answerText: Continue
+      isCorrect: 1
+    postAnswerText: 
   videoPlayerManager: {fileID: 1939052391}
   correctPoints: 10
   ppm: {fileID: 612934389}
+  sm: {fileID: 873507273}
 --- !u!4 &421408320
 Transform:
   m_ObjectHideFlags: 0
@@ -430,6 +439,7 @@ MonoBehaviour:
   - {fileID: 1242423747}
   - {fileID: 1864830252}
   distanceFromHeadset: 1.5
+  vpm: {fileID: 1939052391}
 --- !u!4 &566414748
 Transform:
   m_ObjectHideFlags: 0
@@ -816,6 +826,22 @@ PrefabInstance:
     - target: {fileID: 5071854296478758785, guid: f5b6a4c78940309479b9934779500151, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5071854296665318423, guid: f5b6a4c78940309479b9934779500151, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1864830253}
+    - target: {fileID: 5071854296665318423, guid: f5b6a4c78940309479b9934779500151, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: VolumeChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 5071854296665318423, guid: f5b6a4c78940309479b9934779500151, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SettingsMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5071854296665318423, guid: f5b6a4c78940309479b9934779500151, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5071854296847800200, guid: f5b6a4c78940309479b9934779500151, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1658,6 +1684,7 @@ MonoBehaviour:
   clips:
   - {fileID: 32900000, guid: bc435ee9275cb6f429cf8e424f1356ba, type: 3}
   - {fileID: 32900000, guid: 0dcaed91c690c3f4bae876c15ccb7f7e, type: 3}
+  videoLength: 0
   qc: {fileID: 421408319}
   ppm: {fileID: 612934389}
   sm: {fileID: 873507273}
@@ -1812,7 +1839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1984668758913251958, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 44.7
       objectReference: {fileID: 0}
     - target: {fileID: 1984668758913251958, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1840,7 +1867,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1984668759388320319, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1984668759388320319, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1876,7 +1903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1984668759906836222, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1984668759906836222, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1896,7 +1923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1984668759991436502, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1984668759991436502, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1932,7 +1959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1984668760453204319, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 44.7
       objectReference: {fileID: 0}
     - target: {fileID: 1984668760453204319, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1952,7 +1979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1984668760497519799, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1984668760497519799, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1980,7 +2007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1984668760711245992, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1984668760711245992, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_AnchoredPosition.y

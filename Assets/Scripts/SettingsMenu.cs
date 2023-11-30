@@ -23,18 +23,22 @@ public class SettingsMenu : MonoBehaviour
         ppm = GameObject.Find("PlayerPrefManager").GetComponent<PlayerPrefManager>();
 
         quizToggle = GetComponentInChildren<Toggle>();
-        if(ppm.isQuizMode()) {
-            quizToggle.isOn = true;
-        }
-        else {
-            quizToggle.isOn = false;
-        }
+        if(quizToggle != null) {
+            if(ppm.isQuizMode()) {
+                quizToggle.isOn = true;
+            }
+            else {
+                quizToggle.isOn = false;
+            }
 
-        if(sm.GetActiveScene() == 1) {
-            quizToggle.interactable = false;
+            if(sm.GetActiveScene() == 1) {
+                quizToggle.interactable = false;
+            }
         }
+        
         slider = GetComponentInChildren<Slider>();
         slider.value = ppm.GetVolume();
+        Debug.Log("PlayerPref Volume: " + ppm.GetVolume() + ", slider value: " + slider.value);
     }
     public void Back() 
     {
@@ -55,6 +59,7 @@ public class SettingsMenu : MonoBehaviour
     public void VolumeChanged()
     {
         ppm.SetVolume(slider.value);
+        Debug.Log("Slider value: " + slider.value);
     }
 
     public void QuizModeToggled()

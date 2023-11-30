@@ -11,6 +11,7 @@ public class PlayerPauseController : MonoBehaviour
     public float distanceFromHeadset = 1.5f; // Distance from the headset
     private bool wasMenuButtonPressed = false;
 
+    [SerializeField]
     private VideoPlayerManager vpm;
 
     void Start()
@@ -26,8 +27,6 @@ public class PlayerPauseController : MonoBehaviour
         {
             Debug.Log("Left controller is not valid.");
         }
-
-        vpm = GameObject.Find("VideoManager").GetComponent<VideoPlayerManager>();
     }
 
     void Update()
