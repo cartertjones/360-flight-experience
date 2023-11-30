@@ -54,5 +54,35 @@ public class PlayerPrefManager : MonoBehaviour
     {
         return PlayerPrefs.GetInt("Timestamp");
     }
+    public void SetQuizMode(bool quizMode)
+    {
+        PlayerPrefs.SetInt("quizMode", quizMode ? 1 : 0);
+    }
+    public void ToggleQuizMode()
+    {
+        SetQuizMode(!isQuizMode());
+    }
+    public bool isQuizMode()
+    {
+        return PlayerPrefs.GetInt("quizMode") == 1;
+    }
 
+    public void SetVolume(float value)
+    {
+        PlayerPrefs.SetFloat("Volume", value);
+        PlayerPrefs.Save();
+    }
+
+    public float GetVolume()
+    {
+        return PlayerPrefs.GetFloat("Volume");
+    }
+
+    public void SetInitialMode(int value) {
+        PlayerPrefs.SetInt("InitialMode", value);
+    }
+
+    public int GetInitialMode() {
+        return PlayerPrefs.GetInt("InitialMode");
+    }
 }

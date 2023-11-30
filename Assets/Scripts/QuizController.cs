@@ -34,6 +34,9 @@ public class QuizController : MonoBehaviour
 
     private void Start()
     {
+        if(!ppm.isQuizMode()) {
+            quizUI.SetActive(false);
+        }
         Debug.Log($"answerButtons.Length: {answerButtons.Length}");
 
         answerText = new TextMeshProUGUI[answerButtons.Length];

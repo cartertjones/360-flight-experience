@@ -16,6 +16,9 @@ public class VideoPlayerManager : MonoBehaviour
     [SerializeField]
     private PlayerPrefManager ppm;
 
+    [SerializeField]
+    private CustomSceneManager sm;
+
     private void Start() {
         //select clip to be played
         if(ppm.GetScene() == "Intro")
@@ -37,7 +40,7 @@ public class VideoPlayerManager : MonoBehaviour
         //Check to see if the current clip has ended. Once it's over, prepare to transition to 360 video
         if ((videoPlayer.frame) > 0 && (videoPlayer.isPlaying == false))
         {
-            //TODO transition to 360 video
+            sm.LoadScene(2, "360VideoTakeoff");
         }
 
         //Update timestamp
@@ -52,12 +55,16 @@ public class VideoPlayerManager : MonoBehaviour
             Debug.Log(currTimestamp);
         }
         prevTimestamp = currTimestamp;
+
+        //update volume
+        videoPlayer.SetDirectAudioVolume(0, ppm.GetVolume());
     }
 
     public void Pause() {
         videoPlayer.Pause();
     }
     public void Play() {
+        videoPlayer.time = ppm.GetTimestamp();
         videoPlayer.Play();
     }
     public void TogglePlay() {
