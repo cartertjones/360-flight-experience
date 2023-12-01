@@ -16,9 +16,6 @@ public class QuizController : MonoBehaviour
     private TextMeshProUGUI questionText;
     public TextMeshProUGUI postAnswerText;
 
-    [SerializeField]
-    private int endOfClip;
-
     //quiz questions
     [SerializeField]
     private Question[] quizQuestions;
@@ -39,9 +36,15 @@ public class QuizController : MonoBehaviour
     [SerializeField]
     private CustomSceneManager sm;
 
+    [SerializeField]
+    private ParticleSystem particleSystem;
+
+    [SerializeField]
+    private AudioSource[] audioSources;
+
     private void Start()
     {
-        if(!ppm.isQuizMode()) {
+        if(ppm.GetScene() == "Conclusion") {
             quizUI.SetActive(false);
         }
         Debug.Log($"answerButtons.Length: {answerButtons.Length}");
@@ -90,12 +93,17 @@ public class QuizController : MonoBehaviour
                 ProckQuestion(q);
             }
         }
+
+        if(timestamp >= videoPlayerManager.GetLength() + 1) {
+            ProckQuestion(quizQuestions[quizQuestions.Length - 1]);
+        }
     }
     //when video timestamp hits a matching question timestamp
         //pause video
         //put answers in a random order
             //make sure to set the correct answer to correct
     private void ProckQuestion(Question q) {
+        quizUI.SetActive(true);
         videoPlayerManager.Pause();
         //set question header to question text
         questionText.text = q.questionText;
@@ -169,47 +177,51 @@ public class QuizController : MonoBehaviour
     public void OnClick(int answer)
     {
         Button clickedButton = answerButtons[answer].GetComponent<Button>();
-
-        if(ppm.GetTimestamp() == endOfClip) {
-            sm.LoadScene(2, "360Video");
-        }
-        
         ColorBlock defaults = clickedButton.colors;
         ColorBlock colorBlock = defaults;
 
-        if (answer == correctAnswer)
-        {
-            colorBlock.normalColor = Color.green;
-            colorBlock.highlightedColor = Color.green;
-            // Assign the modified ColorBlock back to the button
-            clickedButton.colors = colorBlock;
-
-            ppm.IncreaseScore(correctPoints);
-            // Play sound
+        if(ppm.GetTimestamp() >= videoPlayerManager.GetLength()) {
+            sm.LoadScene(2, "360Video");
         }
-        else
-        {
-            colorBlock.normalColor = Color.red;
-            colorBlock.highlightedColor = Color.red;
-            // Assign the modified ColorBlock back to the button
-            clickedButton.colors = colorBlock;
-            // Play sound
-        }
-
-        // Hide other buttons
-        for (int i = 0; i < answerButtons.Length; i++)
-        {
-            if (i != answer)
+        else {
+            if (answer == correctAnswer)
             {
-                answerButtons[i].SetActive(false);
+                colorBlock.normalColor = Color.green;
+                colorBlock.highlightedColor = Color.green;
+                // Assign the modified ColorBlock back to the button
+                clickedButton.colors = colorBlock;
+
+                ppm.IncreaseScore(correctPoints);
+                // Play sound
+                foreach(AudioSource audioSource in audioSources) {
+                    audioSource.Play();
+                }
+                particleSystem.Play();
             }
+            else
+            {
+                colorBlock.normalColor = Color.red;
+                colorBlock.highlightedColor = Color.red;
+                // Assign the modified ColorBlock back to the button
+                clickedButton.colors = colorBlock;
+                // Play sound
+            }
+
+            // Hide other buttons
+            for (int i = 0; i < answerButtons.Length; i++)
+            {
+                if (i != answer)
+                {
+                    answerButtons[i].SetActive(false);
+                }
+            }
+
+            // Display post-answer text
+            postAnswerText.transform.gameObject.SetActive(true);
+
+            // Set UI body to blank after a moment
+            StartCoroutine(DeactivateObjectsDelayed(defaults));
         }
-
-        // Display post-answer text
-        postAnswerText.transform.gameObject.SetActive(true);
-
-        // Set UI body to blank after a moment
-        StartCoroutine(DeactivateObjectsDelayed(defaults));
     }
 
     private IEnumerator DeactivateObjectsDelayed(ColorBlock defaults)
@@ -221,6 +233,7 @@ public class QuizController : MonoBehaviour
             obj.SetActive(false);
         }
 
+        quizUI.SetActive(false);
         videoPlayerManager.Play();
 
         // Reset button colors to default

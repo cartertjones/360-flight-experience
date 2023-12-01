@@ -594,6 +594,10 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SettingsMenu, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3355788160289275370, guid: f5b6a4c78940309479b9934779500151, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4385174686914484629, guid: f5b6a4c78940309479b9934779500151, type: 3}
       propertyPath: pauseMenu
       value: 
@@ -709,8 +713,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1818230905}
-  clips: []
-  videoLength: 376
+  clips:
+  - {fileID: 32900000, guid: e11e3f7ae34ba7f45b5ec31635e04cfc, type: 3}
+  videoLength: 10
   qc: {fileID: 0}
   ppm: {fileID: 283974367}
   sm: {fileID: 276803724}
@@ -983,7 +988,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1818230904}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: e11e3f7ae34ba7f45b5ec31635e04cfc, type: 3}
+  m_VideoClip: {fileID: 0}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 1803619013}

@@ -10,8 +10,8 @@ public class VideoPlayerManager : MonoBehaviour
 
     private int currTimestamp, prevTimestamp;
 
-    [SerializeField]
-    private int videoLength;
+    // [SerializeField]
+    // private int videoLength;
 
     [SerializeField]
     private QuizController qc;
@@ -27,6 +27,11 @@ public class VideoPlayerManager : MonoBehaviour
         if(ppm.GetScene() == "Intro")
         {
             videoPlayer.clip = clips[0];
+            Play();
+        }
+        if(ppm.GetScene() == "360Video")
+        {
+            videoPlayer.clip = clips[0]; //stupid
             Play();
         }
         else if(ppm.GetScene() == "Conclusion")
@@ -53,6 +58,17 @@ public class VideoPlayerManager : MonoBehaviour
         //     }
         // }
 
+        if(ppm.GetScene() != "Intro" && ppm.GetTimestamp() >= videoPlayer.length) {
+            switch(ppm.GetScene()) {
+                case "360Video":
+                    sm.LoadScene(1, "Conclusion");
+                    break;
+                case "Conclusion":
+                    sm.LoadScene(3, "EndScreen");
+                    break;
+            }
+        }
+
         //Update timestamp
         currTimestamp = (int)(videoPlayer.time);
         if(currTimestamp != prevTimestamp)
@@ -62,7 +78,8 @@ public class VideoPlayerManager : MonoBehaviour
                 qc.UpdateTimestamp(currTimestamp);
             }
             ppm.SetTimestamp(currTimestamp);
-            Debug.Log(currTimestamp);
+            Debug.Log(ppm.GetTimestamp());
+
         }
         prevTimestamp = currTimestamp;
 
@@ -79,6 +96,10 @@ public class VideoPlayerManager : MonoBehaviour
     }
     public void TogglePlay() {
 
+    }
+
+    public int GetLength() {
+        return (int)videoPlayer.length;
     }
 
     //TODO call QuizController.UpdateTimestamp each second, passing video's timestamp as parameter
