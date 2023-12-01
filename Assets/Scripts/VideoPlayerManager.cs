@@ -10,23 +10,36 @@ public class VideoPlayerManager : MonoBehaviour
 
     private int currTimestamp, prevTimestamp;
 
+    // [SerializeField]
+    // private int videoLength;
+
     [SerializeField]
     private QuizController qc;
 
     [SerializeField]
     private PlayerPrefManager ppm;
 
+    [SerializeField]
+    private CustomSceneManager sm;
+
     private void Start() {
         //select clip to be played
         if(ppm.GetScene() == "Intro")
         {
             videoPlayer.clip = clips[0];
+            Play();
+        }
+        if(ppm.GetScene() == "360Video")
+        {
+            videoPlayer.clip = clips[0]; //stupid
+            Play();
         }
         else if(ppm.GetScene() == "Conclusion")
         {
             videoPlayer.clip = clips[1];
+            Play();
         }
-        Play();
+        
     }
 
     private bool isPaused;
@@ -34,10 +47,26 @@ public class VideoPlayerManager : MonoBehaviour
 
     private void Update()
     {
-        //Check to see if the current clip has ended. Once it's over, prepare to transition to 360 video
-        if ((videoPlayer.frame) > 0 && (videoPlayer.isPlaying == false))
-        {
-            //TODO transition to 360 video
+        // if(videoLength != null || videoLength != 0) {
+        //     if(ppm.GetTimestamp() == videoLength) {
+        //         if(ppm.GetScene() == "360Video") {
+        //             sm.LoadScene(1, "Conclusion");
+        //         }
+        //         else if(ppm.GetScene() == "Conclusion") {
+        //             //show end ui?
+        //         }
+        //     }
+        // }
+
+        if(ppm.GetScene() != "Intro" && ppm.GetTimestamp() >= videoPlayer.length) {
+            switch(ppm.GetScene()) {
+                case "360Video":
+                    sm.LoadScene(1, "Conclusion");
+                    break;
+                case "Conclusion":
+                    sm.LoadScene(3, "EndScreen");
+                    break;
+            }
         }
 
         //Update timestamp
@@ -49,19 +78,28 @@ public class VideoPlayerManager : MonoBehaviour
                 qc.UpdateTimestamp(currTimestamp);
             }
             ppm.SetTimestamp(currTimestamp);
-            Debug.Log(currTimestamp);
+            Debug.Log(ppm.GetTimestamp());
+
         }
         prevTimestamp = currTimestamp;
+
+        //update volume
+        videoPlayer.SetDirectAudioVolume(0, ppm.GetVolume());
     }
 
     public void Pause() {
         videoPlayer.Pause();
     }
     public void Play() {
+        videoPlayer.time = ppm.GetTimestamp();
         videoPlayer.Play();
     }
     public void TogglePlay() {
 
+    }
+
+    public int GetLength() {
+        return (int)videoPlayer.length;
     }
 
     //TODO call QuizController.UpdateTimestamp each second, passing video's timestamp as parameter
