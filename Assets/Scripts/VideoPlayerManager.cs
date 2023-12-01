@@ -98,12 +98,17 @@ public class VideoPlayerManager : MonoBehaviour
 
     }
 
-    public int GetLength() {
-        return (int)videoPlayer.length;
+    public double GetLength() {
+        return videoPlayer.length;
     }
 
-    //TODO call QuizController.UpdateTimestamp each second, passing video's timestamp as parameter
-   
+    public double GetTimestamp() {
+        return (double)ppm.GetTimestamp();
+    }
+
+    public void SetTimestamp(double timestamp) {
+        videoPlayer.time = timestamp;
+    }
 }
 
 

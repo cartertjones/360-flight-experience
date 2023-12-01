@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private PlayerPauseController ppc;
     
-    private void Start()
+    public virtual void Start()
     {
         sm = GameObject.Find("CustomSceneManager").GetComponent<CustomSceneManager>();
     }
