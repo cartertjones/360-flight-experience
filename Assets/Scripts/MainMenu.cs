@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
         sm = GameObject.Find("CustomSceneManager").GetComponent<CustomSceneManager>();
     }
     private void Update() {
-        if(ppm.GetTimestamp() > 0 && (ppm.GetInitialMode() == 1 && ppm.isQuizMode())) {
+        if(ppm.GetTimestamp() > 0) {
             resumeGame.SetActive(true);
         }
         else {
