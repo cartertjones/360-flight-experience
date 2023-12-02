@@ -26,7 +26,14 @@ public class PauseMenuWithTimer : PauseMenu
     }
 
     public void SkipForward(int amount) {
-        vpm.SetTimestamp(vpm.GetTimestamp() + amount);
+        if(vpm.GetTimestamp() > vpm.GetLength() - amount)
+        {
+            vpm.SetTimestamp(vpm.GetLength() - 1);
+        }
+        else
+        {
+            vpm.SetTimestamp(vpm.GetTimestamp() + amount);
+        }
     }
 
     string FormatTime(int totalSeconds)

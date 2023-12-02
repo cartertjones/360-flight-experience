@@ -14,6 +14,7 @@ public class CustomSceneManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
     public void LoadScene(int sceneIndex, string sceneName) {
+        Debug.Log("Loading Scene: " + sceneIndex + " (" + sceneName + ")");
         ppm.ResetTimestamp();
         ppm.SetScene(sceneName);
         SceneManager.LoadScene(sceneIndex);

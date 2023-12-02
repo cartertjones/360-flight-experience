@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class PlayerPrefManager : MonoBehaviour
 {
+    //used just to display current playerprefs in scene
+    public void Start()
+    {
+        Debug.Log(
+            "Current Scene: " + GetScene()
+            + " Current Timestamp: " + GetTimestamp()
+            );
+    }
     public void ResetGame()
     {
         ResetScore();

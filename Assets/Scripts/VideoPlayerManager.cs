@@ -39,7 +39,6 @@ public class VideoPlayerManager : MonoBehaviour
             videoPlayer.clip = clips[1];
             Play();
         }
-        
     }
 
     private bool isPaused;
@@ -58,17 +57,20 @@ public class VideoPlayerManager : MonoBehaviour
         //     }
         // }
 
-        if(ppm.GetScene() != "Intro" && ppm.GetTimestamp() >= videoPlayer.length) {
-            switch(ppm.GetScene()) {
-                case "360Video":
-                    sm.LoadScene(1, "Conclusion");
-                    break;
-                case "Conclusion":
-                    sm.LoadScene(3, "EndScreen");
-                    break;
+        if(videoPlayer.time >= videoPlayer.length - 0.1)
+        {
+            Debug.Log("Video ended");
+            if(ppm.GetScene() == "360Video" || /*DEV MODE*/ ppm.GetScene() == "Intro")
+            {
+                Debug.Log("Current Scene is 360Video, loading Conclusion.");
+                sm.LoadScene(1, "Conclusion");
+            }
+            else if(ppm.GetScene() == "Conclusion")
+            {
+                Debug.Log("Current Scene is Conclusion, loading EndScreen");
+                sm.LoadScene(3, "EndScreen");
             }
         }
-
         //Update timestamp
         currTimestamp = (int)(videoPlayer.time);
         if(currTimestamp != prevTimestamp)

@@ -183,7 +183,6 @@ MonoBehaviour:
   clips:
   - {fileID: 32900000, guid: b57d587b9ea4f2d458d86d769089ef98, type: 3}
   - {fileID: 32900000, guid: c3006a153a3379442a44c84ff8d014c2, type: 3}
-  videoLength: 0
   qc: {fileID: 0}
   ppm: {fileID: 0}
   sm: {fileID: 0}
@@ -6329,6 +6328,9 @@ MonoBehaviour:
   ppm: {fileID: 1993596889}
   questionCount: 6
   sm: {fileID: 1356958119}
+  audioSources:
+  - {fileID: 8752292179765987001}
+  - {fileID: 8752292179765987000}
 --- !u!82 &8752292179765987000
 AudioSource:
   m_ObjectHideFlags: 0

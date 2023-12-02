@@ -10,12 +10,17 @@ public class EndScreen : MonoBehaviour
     public PlayerPrefManager ppm;
     public int questionCount;
     public CustomSceneManager sm;
+    public AudioSource[] audioSources;
     
     // Start is called before the first frame update
     void Start()
     {
         text.text = (ppm.GetScore() + "/" + questionCount);
         slider.value = (float)(ppm.GetScore())/(float)(questionCount);
+        foreach (AudioSource audioSource in audioSources)
+        {
+            audioSource.volume = ppm.GetVolume();
+        }
     }
 
     public void MainMenu()

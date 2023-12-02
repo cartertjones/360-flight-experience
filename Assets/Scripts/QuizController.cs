@@ -83,6 +83,16 @@ public class QuizController : MonoBehaviour
         {
             obj.SetActive(false);
         }
+
+        quizUI.SetActive(false);
+    }
+
+    private void Update()
+    {
+        foreach(AudioSource audioSource in audioSources)
+        {
+            audioSource.volume = ppm.GetVolume();
+        }
     }
 
 
@@ -94,7 +104,7 @@ public class QuizController : MonoBehaviour
             }
         }
 
-        if(timestamp >= videoPlayerManager.GetLength() + 1) {
+        if(timestamp >= videoPlayerManager.GetLength() - 1) {
             ProckQuestion(quizQuestions[quizQuestions.Length - 1]);
         }
     }
@@ -180,7 +190,7 @@ public class QuizController : MonoBehaviour
         ColorBlock defaults = clickedButton.colors;
         ColorBlock colorBlock = defaults;
 
-        if(ppm.GetTimestamp() >= videoPlayerManager.GetLength()) {
+        if(ppm.GetTimestamp() >= videoPlayerManager.GetLength() - 1) {
             sm.LoadScene(2, "360Video");
         }
         else {
