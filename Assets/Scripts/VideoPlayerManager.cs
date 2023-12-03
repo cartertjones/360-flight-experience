@@ -46,17 +46,6 @@ public class VideoPlayerManager : MonoBehaviour
 
     private void Update()
     {
-        // if(videoLength != null || videoLength != 0) {
-        //     if(ppm.GetTimestamp() == videoLength) {
-        //         if(ppm.GetScene() == "360Video") {
-        //             sm.LoadScene(1, "Conclusion");
-        //         }
-        //         else if(ppm.GetScene() == "Conclusion") {
-        //             //show end ui?
-        //         }
-        //     }
-        // }
-
         if(videoPlayer.time >= videoPlayer.length - 0.1)
         {
             Debug.Log("Video ended");
