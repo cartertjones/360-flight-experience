@@ -11,6 +11,11 @@ public class PlayerPrefManager : MonoBehaviour
             "Current Scene: " + GetScene()
             + " Current Timestamp: " + GetTimestamp()
             );
+
+        if(PlayerPrefs.GetFloat("Volume") == null)
+        {
+            PlayerPrefs.SetFloat("Volume", .5f);
+        }
     }
     public void ResetGame()
     {

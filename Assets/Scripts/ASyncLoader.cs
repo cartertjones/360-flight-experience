@@ -22,11 +22,9 @@ public class ASyncLoader : MonoBehaviour
     private void Start()
     {
         mainMenu = GameObject.Find("Main Menu");
-        loadingScreen = this.transform.gameObject;
         loadingSlider = loadingScreen.GetComponentInChildren<Slider>();
-        percentageText = FindComponentInChildrenByName<TextMeshProUGUI>(loadingScreen, "Percent");
-        loadingText = FindComponentInChildrenByName<TextMeshProUGUI>(loadingScreen, "Header");
         ppm = GameObject.Find("PlayerPrefManager").GetComponent<PlayerPrefManager>();
+        percentageText.text = FormatAsPercentage(0);
     }
     public void LoadLevel(int leveIndex)
     {
@@ -35,16 +33,16 @@ public class ASyncLoader : MonoBehaviour
             mainMenu.SetActive(false);
         }
 
-        //SPECIAL
-        if(ppm != null && ppm.GetScene() == "360Video")
-        {
-            Vector3 headsetPosition = Camera.main.transform.position;
-            Vector3 headsetForward = Camera.main.transform.forward;
+        // //SPECIAL
+        // if(ppm != null && ppm.GetScene() == "360Video")
+        // {
+        //     Vector3 headsetPosition = Camera.main.transform.position;
+        //     Vector3 headsetForward = Camera.main.transform.forward;
 
-            transform.position = headsetPosition + distanceFromHeadset * headsetForward;
-            transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);            
-            transform.rotation = Quaternion.LookRotation(headsetForward);
-        }
+        //     transform.position = headsetPosition + distanceFromHeadset * headsetForward;
+        //     transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);            
+        //     transform.rotation = Quaternion.LookRotation(headsetForward);
+        // }
         loadingScreen.SetActive(true);
 
         //run async load
@@ -65,6 +63,7 @@ public class ASyncLoader : MonoBehaviour
         }
         StopCoroutine(AnimateText());
         loadingText.text = "Done!";
+        yield return new WaitForSeconds(0.5f);
     }
     
     IEnumerator AnimateText()
@@ -88,39 +87,5 @@ public class ASyncLoader : MonoBehaviour
     {
         int percentage = Mathf.RoundToInt(value * 100f);
         return $"{percentage}%";
-    }
-
-    T FindComponentInChildrenByName<T>(GameObject parentObject, string childObjectName) where T : Component
-    {
-        if (parentObject != null)
-        {
-            Transform childTransform = parentObject.transform.Find(childObjectName);
-
-            if (childTransform != null)
-            {
-                // If the child is found, get the component by name
-                T foundComponent = childTransform.GetComponent<T>();
-
-                if (foundComponent != null)
-                {
-                    return foundComponent;
-                }
-                else
-                {
-                    Debug.LogWarning("Component '" + typeof(T).Name + "' not found on child '" + childObjectName + "'.");
-                    return null;
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Child '" + childObjectName + "' not found.");
-                return null;
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Parent GameObject is null.");
-            return null;
-        }
     }
 }

@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/360Video.unity
     guid: 2fae53c3897cdd14ead7bc217036cd37
   - enabled: 1
+    path: Assets/Scenes/Conclusion.unity
+    guid: ae832d748a80d7d4f9dda40cf4e90fae
+  - enabled: 1
     path: Assets/Scenes/EndScreen.unity
     guid: aeafb811321c6ba44aa5b03675ac8619
   m_configObjects:

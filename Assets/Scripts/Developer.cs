@@ -54,21 +54,21 @@ public class Developer
     [MenuItem("Developer/SetTimestamp/Beginning")]
     public static void SetTimestampBeginning()
     {
-        VideoPlayerManager vpm = GameObject.Find("VideoPlayerManager").GetComponent<VideoPlayerManager>();
+        VideoPlayerManager vpm = GameObject.Find("VideoManager").GetComponent<VideoPlayerManager>();
         vpm.SetTimestamp(0);
     }
 
     [MenuItem("Developer/SetTimestamp/Half")]
     public static void SetTimestampHalf()
     {
-        VideoPlayerManager vpm = GameObject.Find("VideoPlayerManager").GetComponent<VideoPlayerManager>();
+        VideoPlayerManager vpm = GameObject.Find("VideoManager").GetComponent<VideoPlayerManager>();
         vpm.SetTimestamp(vpm.GetLength() / 2);
     }
 
     [MenuItem("Developer/SetTimestamp/End")]
     public static void SetTimestampEnd()
     {
-        VideoPlayerManager vpm = GameObject.Find("VideoPlayerManager").GetComponent<VideoPlayerManager>();
-        vpm.SetTimestamp(vpm.GetLength());
+        VideoPlayerManager vpm = GameObject.Find("VideoManager").GetComponent<VideoPlayerManager>();
+        vpm.SetTimestamp(vpm.GetLength() - 1);
     }
 }

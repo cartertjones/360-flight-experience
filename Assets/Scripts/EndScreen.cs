@@ -15,7 +15,7 @@ public class EndScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        text.text = ((ppm.GetScore() - 1) + "/" + questionCount);
+        text.text = ((ppm.GetScore()) + "/" + questionCount);
         slider.value = (float)(ppm.GetScore())/(float)(questionCount);
         foreach (AudioSource audioSource in audioSources)
         {

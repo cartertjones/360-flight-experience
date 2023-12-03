@@ -8,7 +8,7 @@ public class VideoPlayerManager : MonoBehaviour
     public VideoPlayer videoPlayer;     //Our video player component variable. Can be set in inspector or through code in Start()             
     public VideoClip[] clips;
 
-    private int currTimestamp, prevTimestamp;
+    private double currTimestamp, prevTimestamp;
     private bool videoStarted;
 
     // [SerializeField]
@@ -22,57 +22,40 @@ public class VideoPlayerManager : MonoBehaviour
 
     [SerializeField]
     private CustomSceneManager sm;
-
-    private void Start() {
-        //select clip to be played
-        videoStarted = false;
-        if(ppm.GetScene() == "Intro")
-        {
-            videoPlayer.clip = clips[0];
-            Play();
-        }
-        if(ppm.GetScene() == "360Video")
-        {
-            videoPlayer.clip = clips[0]; //stupid
-            Play();
-        }
-        else if(ppm.GetScene() == "Conclusion")
-        {
-            videoPlayer.clip = clips[1];
-            Play();
-        }
-    }
-
+    
     private bool isPaused;
 
+    public bool videoEnded;
+
+    private void Start() {
+        videoPlayer.clip = clips[0];
+        videoEnded = false;
+    }
 
     private void Update()
     {
-        if(videoStarted && videoPlayer.time >= videoPlayer.length - 0.1)
+        if(videoPlayer.isPrepared && videoPlayer.time >= videoPlayer.length - 0.5)
         {
-            Debug.Log("Video ended");
-            if(ppm.GetScene() == "360Video" || /*DEV MODE*/ ppm.GetScene() == "Intro")
+            if(!videoEnded)
+            {
+                videoEnded = true;
+            }
+            
+            if(videoEnded && sm.GetActiveScene() == 2)
             {
                 Debug.Log("Current Scene is 360Video, loading Conclusion.");
-                sm.LoadScene(1, "Conclusion");
-            }
-            else if(ppm.GetScene() == "Conclusion")
-            {
-                Debug.Log("Current Scene is Conclusion, loading EndScreen");
-                sm.LoadScene(3, "EndScreen");
+                sm.LoadScene(3, "Conclusion");
             }
         }
         //Update timestamp
-        currTimestamp = (int)(videoPlayer.time);
+        currTimestamp = videoPlayer.time;
         if(currTimestamp != prevTimestamp)
         {
             if(qc != null)
             {
                 qc.UpdateTimestamp(currTimestamp);
             }
-            ppm.SetTimestamp(currTimestamp);
-            Debug.Log(ppm.GetTimestamp());
-
+            ppm.SetTimestamp((int)(currTimestamp));
         }
         prevTimestamp = currTimestamp;
 
@@ -87,9 +70,6 @@ public class VideoPlayerManager : MonoBehaviour
         videoPlayer.time = ppm.GetTimestamp();
         videoPlayer.Play();
         videoStarted = true;
-    }
-    public void TogglePlay() {
-
     }
 
     public double GetLength() {

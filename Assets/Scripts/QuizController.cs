@@ -42,11 +42,12 @@ public class QuizController : MonoBehaviour
     [SerializeField]
     private AudioSource[] audioSources;
 
+    private bool sectionFlag;
+
     private void Start()
     {
-        if(ppm.GetScene() == "Conclusion") {
-            quizUI.SetActive(false);
-        }
+        sectionFlag = true;
+
         Debug.Log($"answerButtons.Length: {answerButtons.Length}");
 
         answerText = new TextMeshProUGUI[answerButtons.Length];
@@ -93,19 +94,20 @@ public class QuizController : MonoBehaviour
         {
             audioSource.volume = ppm.GetVolume();
         }
+
+        if(sectionFlag == true && videoPlayerManager.videoEnded) {
+            sectionFlag = false;
+            ProckQuestion(quizQuestions[quizQuestions.Length - 1]);
+        }
     }
 
 
     //check if any question aligns with the current timestamp
-    public void UpdateTimestamp(int timestamp) {
+    public void UpdateTimestamp(double timestamp) {
         foreach(Question q in quizQuestions) {
             if(q.timestampInSec == timestamp) {
                 ProckQuestion(q);
             }
-        }
-
-        if(timestamp >= videoPlayerManager.GetLength()) {
-            ProckQuestion(quizQuestions[quizQuestions.Length - 1]);
         }
     }
     //when video timestamp hits a matching question timestamp
@@ -113,6 +115,7 @@ public class QuizController : MonoBehaviour
         //put answers in a random order
             //make sure to set the correct answer to correct
     private void ProckQuestion(Question q) {
+        Debug.Log("Question procked.");
         quizUI.SetActive(true);
         videoPlayerManager.Pause();
         //set question header to question text
@@ -189,9 +192,16 @@ public class QuizController : MonoBehaviour
         Button clickedButton = answerButtons[answer].GetComponent<Button>();
         ColorBlock defaults = clickedButton.colors;
         ColorBlock colorBlock = defaults;
-
         if(ppm.GetTimestamp() >= videoPlayerManager.GetLength() - 1) {
-            sm.LoadScene(2, "360Video");
+            Debug.Log("Continue button clicked. Current Scene = " + ppm.GetScene());
+            if(ppm.GetScene() == "Conclusion")
+            {
+                sm.LoadScene(4, "EndScreen");
+            }
+            if(ppm.GetScene() == "Intro")
+            {
+                sm.LoadScene(2, "360Video");
+            }
         }
         else {
             if (answer == correctAnswer)
