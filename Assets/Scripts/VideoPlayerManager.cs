@@ -9,6 +9,7 @@ public class VideoPlayerManager : MonoBehaviour
     public VideoClip[] clips;
 
     private int currTimestamp, prevTimestamp;
+    private bool videoStarted;
 
     // [SerializeField]
     // private int videoLength;
@@ -24,6 +25,7 @@ public class VideoPlayerManager : MonoBehaviour
 
     private void Start() {
         //select clip to be played
+        videoStarted = false;
         if(ppm.GetScene() == "Intro")
         {
             videoPlayer.clip = clips[0];
@@ -46,7 +48,7 @@ public class VideoPlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if(videoPlayer.time >= videoPlayer.length - 0.1)
+        if(videoStarted && videoPlayer.time >= videoPlayer.length - 0.1)
         {
             Debug.Log("Video ended");
             if(ppm.GetScene() == "360Video" || /*DEV MODE*/ ppm.GetScene() == "Intro")
@@ -84,6 +86,7 @@ public class VideoPlayerManager : MonoBehaviour
     public void Play() {
         videoPlayer.time = ppm.GetTimestamp();
         videoPlayer.Play();
+        videoStarted = true;
     }
     public void TogglePlay() {
 

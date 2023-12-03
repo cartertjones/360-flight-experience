@@ -104,7 +104,7 @@ public class QuizController : MonoBehaviour
             }
         }
 
-        if(timestamp >= videoPlayerManager.GetLength() - 1) {
+        if(timestamp >= videoPlayerManager.GetLength()) {
             ProckQuestion(quizQuestions[quizQuestions.Length - 1]);
         }
     }
