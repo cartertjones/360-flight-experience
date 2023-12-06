@@ -38,8 +38,10 @@ public class SettingsMenu : MonoBehaviour
         }
         
         slider = GetComponentInChildren<Slider>();
-        slider.value = ppm.GetVolume();
-        Debug.Log("PlayerPref Volume: " + ppm.GetVolume() + ", slider value: " + slider.value);
+        if(slider != null) {
+            slider.value = ppm.GetVolume();
+            Debug.Log("PlayerPref Volume: " + ppm.GetVolume() + ", slider value: " + slider.value);
+        }
     }
     private void Update()
     {
@@ -74,7 +76,9 @@ public class SettingsMenu : MonoBehaviour
 
     public void VolumeChanged()
     {
-        ppm.SetVolume(slider.value);
-        Debug.Log("Slider value: " + slider.value);
+        if(slider != null) {
+            ppm.SetVolume(slider.value);
+            Debug.Log("Slider value: " + slider.value);
+        }
     }
 }

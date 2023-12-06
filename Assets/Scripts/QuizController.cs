@@ -44,6 +44,8 @@ public class QuizController : MonoBehaviour
 
     private bool sectionFlag;
 
+    private int prevTimestamp;
+
     private void Start()
     {
         sectionFlag = true;
@@ -104,9 +106,13 @@ public class QuizController : MonoBehaviour
 
     //check if any question aligns with the current timestamp
     public void UpdateTimestamp(double timestamp) {
-        foreach(Question q in quizQuestions) {
-            if(q.timestampInSec == timestamp) {
-                ProckQuestion(q);
+        int timestampInSec = (int)(timestamp);
+        if(timestampInSec != prevTimestamp) {
+            prevTimestamp = timestampInSec;
+            foreach(Question q in quizQuestions) {
+                if(q.timestampInSec == timestampInSec) {
+                    ProckQuestion(q);
+                }
             }
         }
     }
