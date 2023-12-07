@@ -12,16 +12,17 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     private GameObject pauseMenu;
 
+    [SerializeField]
     private PlayerPrefManager ppm;
 
+    [SerializeField]
     private Slider slider;
     private Toggle quizToggle;
 
     private void Start()
     {
         sm = GameObject.Find("CustomSceneManager").GetComponent<CustomSceneManager>();
-        ppm = GameObject.Find("PlayerPrefManager").GetComponent<PlayerPrefManager>();
-
+        
         quizToggle = GetComponentInChildren<Toggle>();
         if(quizToggle != null) {
             if(ppm.isQuizMode()) {
@@ -37,8 +38,25 @@ public class SettingsMenu : MonoBehaviour
         }
         
         slider = GetComponentInChildren<Slider>();
-        slider.value = ppm.GetVolume();
-        Debug.Log("PlayerPref Volume: " + ppm.GetVolume() + ", slider value: " + slider.value);
+        if(slider != null) {
+            slider.value = ppm.GetVolume();
+            Debug.Log("PlayerPref Volume: " + ppm.GetVolume() + ", slider value: " + slider.value);
+        }
+    }
+    private void Update()
+    {
+        if(!ppm)
+        {
+            ppm = GameObject.Find("PlayerPrefManager").GetComponent<PlayerPrefManager>();
+        }
+        else
+        {
+            Debug.Log("Volume: " + ppm.GetVolume());
+        }
+
+        Debug.Log("PPM: " + ppm);
+        Debug.Log("Slider: " + slider);
+        
     }
     public void Back() 
     {
@@ -58,12 +76,9 @@ public class SettingsMenu : MonoBehaviour
 
     public void VolumeChanged()
     {
-        ppm.SetVolume(slider.value);
-        Debug.Log("Slider value: " + slider.value);
-    }
-
-    public void QuizModeToggled()
-    {
-        ppm.ToggleQuizMode();
+        if(slider != null) {
+            ppm.SetVolume(slider.value);
+            Debug.Log("Slider value: " + slider.value);
+        }
     }
 }
