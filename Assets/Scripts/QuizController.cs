@@ -136,7 +136,7 @@ public class QuizController : MonoBehaviour
                 if (answerText[i] != null)
                 {
                     answerText[i].text = q.answers[i].answerText;
-
+                    answerButtons[i].GetComponent<Button>().interactable = true;
                     if (q.answers[i].isCorrect)
                     {
                         correctAnswer = i;
