@@ -8,7 +8,7 @@ using TMPro;
 public class ASyncLoader : MonoBehaviour
 {
     [Header("Menu Screens")]
-    [SerializeField] private GameObject loadingScreen;
+    [SerializeField] public GameObject loadingScreen;
     [SerializeField] private GameObject mainMenu;
 
     [Header("UI Elements")]
@@ -64,9 +64,9 @@ public class ASyncLoader : MonoBehaviour
         StopCoroutine(AnimateText());
         loadingText.text = "Done!";
         yield return new WaitForSeconds(0.5f);
-    }
+    } 
     
-    IEnumerator AnimateText()
+    public IEnumerator AnimateText()
     {
         while (true)
         {

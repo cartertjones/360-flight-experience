@@ -15,11 +15,11 @@ public class PauseMenu : MonoBehaviour
         sm = GameObject.Find("CustomSceneManager").GetComponent<CustomSceneManager>();
     }
 
-    public void Resume()
+    public virtual void Resume()
     {
         ppc.ToggleUIPosition();
     }
-    public void Settings()
+    public virtual void Settings()
     {
         if(settingsMenu != null) {
             settingsMenu.SetActive(true);
@@ -27,7 +27,13 @@ public class PauseMenu : MonoBehaviour
             Debug.Log("activated settings menu");
         }  
     }
-    public void MainMenu()
+    public virtual void SkipSection() {
+        sm.LoadScene(sm.GetActiveScene() + 1, "Scene");
+    }
+    public virtual void RestartSection() {
+        sm.LoadScene(sm.GetActiveScene(), "Scene");
+    }
+    public virtual void MainMenu()
     {
         sm.LoadScene(0);
     }

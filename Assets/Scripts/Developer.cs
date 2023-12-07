@@ -5,6 +5,7 @@ using UnityEditor;
 
 public class Developer
 {
+    #if INCLUDE_DEV_OPTIONS
     [MenuItem("Developer/Clear PlayerPrefs")]
     public static void ClearPlayerPrefs()
     {
@@ -71,4 +72,5 @@ public class Developer
         VideoPlayerManager vpm = GameObject.Find("VideoManager").GetComponent<VideoPlayerManager>();
         vpm.SetTimestamp(vpm.GetLength() - 1);
     }
+    #endif
 }

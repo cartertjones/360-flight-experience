@@ -196,6 +196,7 @@ public class QuizController : MonoBehaviour
     public void OnClick(int answer)
     {
         Button clickedButton = answerButtons[answer].GetComponent<Button>();
+        clickedButton.interactable = false;
         ColorBlock defaults = clickedButton.colors;
         ColorBlock colorBlock = defaults;
         if(ppm.GetTimestamp() >= videoPlayerManager.GetLength() - 1) {
@@ -214,6 +215,7 @@ public class QuizController : MonoBehaviour
             {
                 colorBlock.normalColor = Color.green;
                 colorBlock.highlightedColor = Color.green;
+                colorBlock.disabledColor = Color.green;
                 // Assign the modified ColorBlock back to the button
                 clickedButton.colors = colorBlock;
 
@@ -228,6 +230,7 @@ public class QuizController : MonoBehaviour
             {
                 colorBlock.normalColor = Color.red;
                 colorBlock.highlightedColor = Color.red;
+                colorBlock.disabledColor = Color.red;
                 // Assign the modified ColorBlock back to the button
                 clickedButton.colors = colorBlock;
                 // Play sound

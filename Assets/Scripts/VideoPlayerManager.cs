@@ -27,20 +27,33 @@ public class VideoPlayerManager : MonoBehaviour
 
     public bool videoEnded;
 
+    private ASyncLoader loader;
+
     private void Start() {
         videoPlayer.clip = clips[0];
-        videoEnded = false;
+        videoPlayer.Prepare();
+        videoStarted = false;
+
+        loader = GameObject.Find("CustomSceneManager").GetComponent<ASyncLoader>();
+        loader.loadingScreen.SetActive(true);
+        StartCoroutine(loader.AnimateText());
     }
 
     private void Update()
     {
+        if(!videoStarted && videoPlayer.isPrepared)
+        {
+            videoStarted = true;
+            StopCoroutine(loader.AnimateText());
+            loader.loadingScreen.SetActive(false);
+            videoPlayer.Play();
+        }
         if(videoPlayer.isPrepared && videoPlayer.time >= videoPlayer.length - 0.5)
         {
             if(!videoEnded)
             {
                 videoEnded = true;
             }
-            
             if(videoEnded && sm.GetActiveScene() == 2)
             {
                 Debug.Log("Current Scene is 360Video, loading Conclusion.");
